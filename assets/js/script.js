@@ -23,8 +23,10 @@ var APIkey = "52b2630cb77a5b300aa52ef84d773ad4";
 var city = "houston";
 
 function getWeatherByCity(city) {
-    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + APIkey;
-    fetch(queryURL)
+    var currentURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + APIkey;
+    var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial&appid=" + APIkey;
+
+    fetch(currentURL)
         .then(function (response) {
             return response.json();
         })
@@ -35,6 +37,19 @@ function getWeatherByCity(city) {
             }
             console.log(weather);
             printWeather(weather);
+        })
+    
+    fetch(forecastURL)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function(forecast){
+            if (forecast.cod == 400 || forecast.cod == 404) {
+                alert("Please input a valid city.")
+                return;
+            }
+            console.log(forecast);
+            printForecast(forecast);
         })
 }
 
@@ -51,8 +66,24 @@ function printWeather(weather) {
     
     //Creating current weather block
     $("#current-weather").append("<div>"+cityName+"</div>").append("<div>"+dt+"</div>").append("<img src = " + iconUrl + " alt = 'Weather Icon'></img>").append("<div>"+temp+"</div>").append("<div>"+hum+"</div>").append("<div>"+windSpeed+"</div>");
+}
 
-    $("#forecasted-weather").append("")
+function printForecast(weather) {
+    // WHEN I view future weather conditions for that city
+    // THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
+    
+    for (var i = 0; i < 5; i++) {
+        //Variables for forecasted weather
+        var dt = DateTime.fromSeconds(weather.list[i].dt).toFormat('cccc, dd MMMM');
+        var iconUrl = "http://openweathermap.org/img/w/" + weather.list[i].weather[0].icon + ".png";
+        var temp = weather.list[i].main.temp + " °F";
+        var windSpeed = weather.list[i].wind.speed + " mph";
+        var hum = weather.list[i].main.humidity + " %";
+
+        $("#forecasted-weather").append("<div id = 'forecast-day" + i + "'></div>");
+    
+        $("#forecast-day" + i + "").append("<div>"+dt+"</div>").append("<img src = " + iconUrl + " alt = 'Weather Icon'></img>").append("<div>"+temp+"</div>").append("<div>"+hum+"</div>").append("<div>"+windSpeed+"</div>");
+    }
 }
 
 form.addEventListener('submit', function(e){
