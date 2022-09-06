@@ -60,29 +60,50 @@ function printWeather(weather) {
     var cityName = weather.name;
     var dt = DateTime.fromSeconds(weather.dt).toFormat('cccc, dd MMMM');
     var iconUrl = "http://openweathermap.org/img/w/" + weather.weather[0].icon + ".png";
-    var temp = weather.main.temp + " °F";
+    var temp = weather.main.temp + "°F";
     var hum = weather.main.humidity + " %";
-    var windSpeed = weather.wind.speed + " mph";
+    var windSpeed = weather.wind.speed + " MPH";
     
     //Creating current weather block
-    $("#current-weather").append("<div>"+cityName+"</div>").append("<div>"+dt+"</div>").append("<img src = " + iconUrl + " alt = 'Weather Icon'></img>").append("<div>"+temp+"</div>").append("<div>"+hum+"</div>").append("<div>"+windSpeed+"</div>");
+    $("#current-weather")
+        .addClass("big-card")
+        .append("<div'><h2>"+cityName+" (" + dt + ")<img class = 'icon' src = " + iconUrl + " alt = 'Weather Icon'></img></h2></div>")
+        // .append("<img src = " + iconUrl + " alt = 'Weather Icon'></img>")
+        .append("<p>Temp: "+temp+"</p>")
+        .append("<p>Wind: "+windSpeed+"</p>")
+        .append("<p>Humidity: "+hum+"</p>")
+    
+    $("#recent-searches")
+        .css("display","block")
+        .append("<button class = 'recent'>"+cityName+"</button>")
 }
 
 function printForecast(weather) {
     // WHEN I view future weather conditions for that city
     // THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
     
+    $("#forecasted-weather")
+            .append("<h2>5-Day Forecast</h2>")
+            .append("<div id = 'weather-cards'></div>")
+
     for (var i = 0; i < 5; i++) {
         //Variables for forecasted weather
         var dt = DateTime.fromSeconds(weather.list[i].dt).toFormat('cccc, dd MMMM');
         var iconUrl = "http://openweathermap.org/img/w/" + weather.list[i].weather[0].icon + ".png";
-        var temp = weather.list[i].main.temp + " °F";
-        var windSpeed = weather.list[i].wind.speed + " mph";
-        var hum = weather.list[i].main.humidity + " %";
+        var temp = "Temp: " + weather.list[i].main.temp + " °F";
+        var windSpeed = "Wind: " + weather.list[i].wind.speed + " MPH";
+        var hum = "Humidity: " + weather.list[i].main.humidity + " %";
 
-        $("#forecasted-weather").append("<div id = 'forecast-day" + i + "'></div>");
+        $("#weather-cards")
+            .append("<div id = 'forecast-day" + i + "'></div>");
     
-        $("#forecast-day" + i + "").append("<div>"+dt+"</div>").append("<img src = " + iconUrl + " alt = 'Weather Icon'></img>").append("<div>"+temp+"</div>").append("<div>"+hum+"</div>").append("<div>"+windSpeed+"</div>");
+        $("#forecast-day" + i + "")
+            .addClass("day-card")
+            .append("<div><h3>"+dt+"</h3></div>")
+            .append("<img src = " + iconUrl + " alt = 'Weather Icon'></img>")
+            .append("<div>"+temp+"</div>")
+            .append("<div>"+windSpeed+"</div>")
+            .append("<div>"+hum+"</div>")
     }
 }
 
