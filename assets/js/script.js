@@ -35,7 +35,6 @@ function getWeatherByCity(city) {
                 alert("Please input a valid city.")
                 return;
             }
-            console.log(weather);
             printWeather(weather);
         })
     
@@ -45,16 +44,13 @@ function getWeatherByCity(city) {
         })
         .then(function(forecast){
             if (forecast.cod == 400 || forecast.cod == 404) {
-                alert("Please input a valid city.")
                 return;
             }
-            console.log(forecast);
             printForecast(forecast);
         })
 }
 
 function printWeather(weather) {
-    console.log("test1");
     
     //Variables for current weather
     var cityName = weather.name;
@@ -63,6 +59,9 @@ function printWeather(weather) {
     var temp = weather.main.temp + "°F";
     var hum = weather.main.humidity + " %";
     var windSpeed = weather.wind.speed + " MPH";
+
+    //Clearing weather block
+    $("#current-weather").empty();
     
     //Creating current weather block
     $("#current-weather")
@@ -75,13 +74,24 @@ function printWeather(weather) {
     
     $("#recent-searches")
         .css("display","block")
-        .append("<button class = 'recent'>"+cityName+"</button>")
+        .prepend("<button class = 'recent' id = " + cityName + " data-name = "+cityName+">"+cityName+"</button>")
+    
+    document.querySelector("#"+cityName).addEventListener('click', function(e){
+        e.preventDefault();
+        
+        var city = document.querySelector("#"+cityName).dataset.name;
+        document.querySelector("#"+cityName).remove();
+        getWeatherByCity(city);
+})
 }
 
 function printForecast(weather) {
     // WHEN I view future weather conditions for that city
     // THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
     
+    //Clearing prior forecasts
+    $("#forecasted-weather").empty();
+
     $("#forecasted-weather")
             .append("<h2>5-Day Forecast</h2>")
             .append("<div id = 'weather-cards'></div>")
