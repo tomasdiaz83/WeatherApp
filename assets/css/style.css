@@ -59,9 +59,6 @@ main {
     vertical-align: middle;
 }
 
-#forecasted-weather {
-}
-
 #weather-cards {
     display: flex;
 }
