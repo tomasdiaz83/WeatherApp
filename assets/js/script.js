@@ -22,6 +22,7 @@ var input = document.querySelector('#search');
 var APIkey = "52b2630cb77a5b300aa52ef84d773ad4";
 var city = "houston";
 
+//Creates the history
 function createHistory(cityName) {
     $("#recent-searches")
         .prepend("<button class = 'recent' id = " + cityName + " data-name = "+cityName+">"+cityName+"</button>")
@@ -35,6 +36,7 @@ function createHistory(cityName) {
 })
 }
 
+//gets weather from input, calling both current and forecast functions
 function getWeatherByCity(city) {
     var currentURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + APIkey;
     var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial&appid=" + APIkey;
@@ -63,8 +65,8 @@ function getWeatherByCity(city) {
         })
 }
 
+//creates current weather
 function printWeather(weather) {
-    console.log(weather);
     //Variables for current weather
     var cityName = weather.name;
     var dt = DateTime.fromSeconds(weather.dt).toFormat('cccc, dd MMMM');
@@ -99,8 +101,6 @@ function printForecast(weather) {
             .append("<h2>5-Day Forecast</h2>")
             .append("<div id = 'weather-cards'></div>")
     
-    console.log(weather);
-
     for (var i = 0; i < 5; i++) {
         var day = i * 8 + 7;
 
