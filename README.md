@@ -7,7 +7,7 @@ The weather app utilized data provided by the OpenWeather API (https://openweath
 
 ## Installation and Usage
 
-Web application, hosted at: 
+Web application, hosted at: https://tomasdiaz83.github.io/WeatherApp/
 
 ## Screenshots
 
