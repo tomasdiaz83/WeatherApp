@@ -22,6 +22,19 @@ var input = document.querySelector('#search');
 var APIkey = "52b2630cb77a5b300aa52ef84d773ad4";
 var city = "houston";
 
+function createHistory(cityName) {
+    $("#recent-searches")
+        .prepend("<button class = 'recent' id = " + cityName + " data-name = "+cityName+">"+cityName+"</button>")
+    
+    document.querySelector("#"+cityName).addEventListener('click', function(e){
+        e.preventDefault();
+        
+        var city = document.querySelector("#"+cityName).dataset.name;
+        document.querySelector("#"+cityName).remove();
+        getWeatherByCity(city);
+})
+}
+
 function getWeatherByCity(city) {
     var currentURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + APIkey;
     var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial&appid=" + APIkey;
@@ -72,17 +85,7 @@ function printWeather(weather) {
         .append("<p>Wind: "+windSpeed+"</p>")
         .append("<p>Humidity: "+hum+"</p>")
     
-    $("#recent-searches")
-        .css("display","block")
-        .prepend("<button class = 'recent' id = " + cityName + " data-name = "+cityName+">"+cityName+"</button>")
-    
-    document.querySelector("#"+cityName).addEventListener('click', function(e){
-        e.preventDefault();
-        
-        var city = document.querySelector("#"+cityName).dataset.name;
-        document.querySelector("#"+cityName).remove();
-        getWeatherByCity(city);
-})
+    createHistory(cityName);
 }
 
 function printForecast(weather) {

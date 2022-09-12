@@ -74,10 +74,6 @@ main {
     margin-right: 2.5px;
 }
 
-#recent-searches {
-    display: none;
-}
-
 .recent {
     background-color: gray;
     border: none;
