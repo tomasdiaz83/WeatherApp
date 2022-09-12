@@ -51,7 +51,7 @@ function getWeatherByCity(city) {
 }
 
 function printWeather(weather) {
-    
+    console.log(weather);
     //Variables for current weather
     var cityName = weather.name;
     var dt = DateTime.fromSeconds(weather.dt).toFormat('cccc, dd MMMM');
@@ -95,14 +95,18 @@ function printForecast(weather) {
     $("#forecasted-weather")
             .append("<h2>5-Day Forecast</h2>")
             .append("<div id = 'weather-cards'></div>")
+    
+    console.log(weather);
 
     for (var i = 0; i < 5; i++) {
+        var day = i * 8 + 7;
+
         //Variables for forecasted weather
-        var dt = DateTime.fromSeconds(weather.list[i].dt).toFormat('cccc, dd MMMM');
-        var iconUrl = "http://openweathermap.org/img/w/" + weather.list[i].weather[0].icon + ".png";
-        var temp = "Temp: " + weather.list[i].main.temp + " °F";
-        var windSpeed = "Wind: " + weather.list[i].wind.speed + " MPH";
-        var hum = "Humidity: " + weather.list[i].main.humidity + " %";
+        var dt = DateTime.fromSeconds(weather.list[day].dt).toFormat('cccc, dd MMMM');
+        var iconUrl = "http://openweathermap.org/img/w/" + weather.list[day].weather[0].icon + ".png";
+        var temp = "Temp: " + weather.list[day].main.temp + " °F";
+        var windSpeed = "Wind: " + weather.list[day].wind.speed + " MPH";
+        var hum = "Humidity: " + weather.list[day].main.humidity + " %";
 
         $("#weather-cards")
             .append("<div id = 'forecast-day" + i + "'></div>");
